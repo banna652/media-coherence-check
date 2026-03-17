@@ -6,23 +6,23 @@ IMAGE_EXTENSIONS = {"jpg", "jpeg", "png", "webp"}
 VIDEO_EXTENSIONS = {"mp4", "mov"}
 
 def extract_metadata(file_path: str | Path) -> dict:
-    
+
     path = Path(file_path).resolve()
-    
+
     if not path.exists():
-        raise FileExistsError(f"File not found: {file_path}")
-    
+        raise FileNotFoundError(f"File not found: {file_path}")
+
     if not path.is_file():
         raise ValueError(f"Path is not a file: {file_path}")
-    
+
     extension = path.suffix.lstrip(".").lower()
-    
-    if not extension in IMAGE_EXTENSIONS:
+
+    if extension in IMAGE_EXTENSIONS:
         return extract_image_metadata(path)
-    
+
     if extension in VIDEO_EXTENSIONS:
         return extract_video_metadata(path)
-    
+
     raise ValueError(f"Unsupported file type: {extension}")
 
 def extract_image_metadata(path: Path) -> dict:

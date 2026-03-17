@@ -55,7 +55,7 @@ class MediaAnalyzer:
         analysis_result = {
             "analysis_version": "0.1",
             "analysis_timestamp": datetime.utcnow().isoformat(),
-            "input_file": file_path,
+            "input_file": file_info,
             "hashes": {
                 "sha256": sha256_hash,
             },

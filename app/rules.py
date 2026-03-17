@@ -1,33 +1,33 @@
 from datetime import datetime
 
 def check_extension_mime_consistency(extension: str, mime_type: str) -> bool:
-    
+
     if not mime_type:
         return False
 
     return extension in mime_type.lower()
 
-
 def check_metadata_presence(metadata: dict) -> bool:
-    
+
     if not metadata:
         return False
 
     return any(value is not None for value in metadata.values())
 
 def check_timestamp_presence(metadata: dict) -> bool:
-    
+
     return metadata.get("creation_date") is not None
 
 def _parse_exif_date(date_value: str):
-    
+
     try:
-        return datetime.strptime(date_value, "%Y:%m:%d %H:%M:%S")
+        clean_date = date_value.split("+")[0]
+        return datetime.strptime(clean_date, "%Y:%m:%d %H:%M:%S")
     except Exception:
         return None
-    
-def check_timestamp_consistency(metadata: dict) -> bool:
-    
+
+def check_timestamp_consistency(metadata: dict):
+
     creation = metadata.get("creation_date")
     modification = metadata.get("modification_date")
 
@@ -42,6 +42,6 @@ def check_timestamp_consistency(metadata: dict) -> bool:
 
     return modification_dt >= creation_dt
 
-def check_encoder_presence(metadata: dict) -> bool:
-    
+def check_encoder_presence(metadata: dict):
+
     return metadata.get("encoder") is not None
